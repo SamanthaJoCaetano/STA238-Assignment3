@@ -1,0 +1,213 @@
+---
+title: "STA238 - Winter 2021"
+author: "GROUP NUMBER: ADD YOUR NAMES HERE"
+date: March 5, 2021
+subtitle: Assignment 3
+output:
+  pdf_document: default
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+library(openintro)
+```
+
+
+# Part 1
+
+
+## Step 1 (Mathematical Justification)
+
+<Type in your assumptions here.>
+
+<Type your derivations of the Posterior Distribution here. I have provided some useful LaTeX coding examples below.> 
+
+The first is an example of inline math code. To write math text in line with the text we surround the math text (LaTeX code) by one pair of dollar signs (\$). For  example: $\lambda ~ Exponential(\beta)$.
+
+Writing mathematical text on individual lines is done by putting my math text (LaTeX code) in two sets of dollar signs (\$). See here: $$\bar{X} = \frac{X_1 + X_2 + ... + X_n}{n} $$ 
+
+Another useful line is $X_1,...,X_n \stackrel{iid}{\sim} Normal(\mu = 0, \sigma^2)$.
+
+Try knitting this to see what it looks like!
+
+
+<Type your conclusion of the posterior distribution here. Be sure to identify what well-known distribution this follows. Also, be sure to identify its parameters as functions of the sample mean and sample size exclusively.> 
+
+
+## Step 2 (Simulation Justification)
+
+
+<Here you can briefly explain your simulation.>
+
+```{r, include = TRUE}
+
+## Here you can code your simulation and create the 3 plots.
+
+## Here is some starter code for the simulation:
+
+set.seed(123) # Set this seed to be the last 3 digits of your student number.
+n1 = 10
+n2 = 50 #pre-specify your sample size
+
+
+
+## Create your plots below. (I recommend using ggplot) 
+
+
+## Remember the patchwork package might be helpful.
+
+
+```
+
+
+<Here you should describe the results of the simulation and the plots.>
+
+<Here you should state your conclusions regarding the posterior distribution. How is it affected by the prior and data (i.e., sample size and sample mean)?>
+
+<Here is the 11.1.2 example. The idea is to produce two plots like this (one for small $n$, one for large $n$):>
+
+```{r, echo=FALSE, fig.width=5, fig.height=3}
+library(tidyverse)
+prior <- function(theta) dbeta(theta,shape1 = 12,shape2 = 12)
+posterior <- function(theta,sumx,n) dbeta(theta,shape1 = 12 + sumx,shape2 = 12 + n - sumx)
+
+data_frame(x = c(0.01,0.99)) %>%
+  ggplot(aes(x = x)) +
+  theme_classic() + 
+  stat_function(fun = prior,
+                colour = "blue") +
+  stat_function(fun = posterior,
+                args = list(sumx = 5,n = 10),
+                colour = "purple") +
+  stat_function(fun = posterior,
+                args = list(sumx = 0,n = 10),
+                colour = "red") +
+  stat_function(fun = posterior,
+                args = list(sumx = 10,n = 10),
+                colour = "orange") +
+  labs(title = "Beta Prior vs Posterior for Theta, 10 coin flips",
+       subtitle = "Blue: Prior. Purple: 5 heads. Red: 0 heads. Orange: 10 heads",
+       x = "Theta",
+       y = "Density") +
+  scale_x_continuous(breaks = seq(0,1,by=0.1))
+```
+
+
+<Please include some text describing the relationship between posterior and the prior, sample size and sample mean. Your text should relate back to the original context of the problem (i.e., visits on a webpage). Be sure that you know what $n$ and $\bar{X}$ represent in the context of the problem.>
+
+
+\newpage
+
+# Part 2
+
+
+## Introduction
+
+<Here you should have a few paragraphs of text introducing the problem, getting the reader interested/ready for the rest of the report.>
+
+<Introduce terminilogy.>
+
+<Highlight hypotheses.>
+
+<Optional: You can also include a description of each section of this report as a last paragraph.>
+
+
+## Data
+
+<Type here a paragraph introducing the data, its context and the data collection process.>
+
+```{r, include = FALSE}
+
+# Here you can load in and clean the data (you may need to do the cleaning in a separate R script). 
+
+# You may need additional chunks, in case you want to include some of the cleaning output.
+
+```
+
+<Type here a summary of the cleaning process.>
+
+<Include a description of the important variables.> 
+
+```{r, include=FALSE}
+
+# Use this to calculate some summary measures. 
+
+```
+
+
+<Include a description of the numerical summaries. Remember you can use `r ` to use inline R code.>
+
+```{r, echo = TRUE}
+
+# Use this to create some plots. 
+
+```
+
+<Include a clear description of the plot(s). I would recommend one paragraph for each plot.> 
+
+
+## Methods
+
+<Include some text introducing the methodology.>
+
+$$ include.your.mathematical.model.here.if.you.have.some.math.to.show $$
+<Here you should describe the bootstrap.>
+
+
+All analysis for this report was programmed using `R version 4.0.2`. 
+
+
+
+## Results 
+
+
+```{r, include = FALSE}
+
+# Here you can run a your bootstrap.
+
+# Here you can derive the CIs of interest.
+
+
+```
+
+<Here you could present your results. You may want to put them into a well formatted table. Be sure that there is some text describing the results.>
+
+
+<Note: Alternatively you can use the `knitr::kable` function to create a well formatted table from your code. See here: [https://rmarkdown.rstudio.com/lesson-7.html](https://rmarkdown.rstudio.com/lesson-7.html).>
+
+
+
+<Remember you can use `r ` to use inline R code.>
+
+
+```{r, include = FALSE}
+
+# Here you can include some relevant visualizations.
+
+
+```
+
+<Include an explanation/interpretation of the visualizations. Make sure to comment on the appropriateness of the assumptions/results.>
+
+## Conclusions
+
+<Here you should give a summary of the Hypotheses, Methods and Results>
+
+<Highlight Key Results.>
+
+<Talk about big picture.>
+
+<Comment on any Weaknesses.>
+
+<Comment on Future Work/Next Steps>
+
+<End with a concluding paragraph to wrap up the report.>
+
+
+## Bibliography
+
+1. Grolemund, G. (2014, July 16) *Introduction to R Markdown*. RStudio. [https://rmarkdown.rstudio.com/articles_intro.html](https://rmarkdown.rstudio.com/articles_intro.html). (Last Accessed: January 15, 2021) 
+
+2. Dekking, F. M., et al. (2005) *A Modern Introduction to Probability and Statistics: Understanding why and how.* Springer Science & Business Media.
+
+3.  Allaire, J.J., et. el. *References: Introduction to R Markdown*. RStudio. [https://rmarkdown.rstudio.com/docs/](https://rmarkdown.rstudio.com/docs/). (Last Accessed: January 15, 2021) 
